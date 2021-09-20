@@ -1,0 +1,16 @@
+.board{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    border: 1px solid red;
+    width: 420px;
+    height: 420px;
+}
+
+.square{
+    text-align: center;
+    width: 120px;
+    height: 120px;
+    border: 1px solid blue;
+}
