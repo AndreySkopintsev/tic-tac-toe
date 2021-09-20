@@ -1,27 +1,54 @@
 const container = document.querySelector('.container')
 
-const createGameboard = (() =>{
-    let array = [['x','o','x'],['o','x','x'],['o','o','x']]
-    const createBoard = () => {
-        let board = document.createElement('div')
-        board.classList.add('board')
-        container.appendChild(board)
-        fillBoard(board)
-    }
+let row
+let cell
 
-    const fillBoard = (board) => {
+const createGameboard = (() =>{
+    let array = [['','',''],['','',''],['','','']]
+    let board = document.createElement('div')
+    board.classList.add('board')
+    container.appendChild(board)
+    
+
+    const fillBoard = () => {
         for(let row in array){
             for(let cell in array[row]){
                 let square = document.createElement('div')
                 square.classList.add('square')
+                square.setAttribute('data-row',row)
+                square.setAttribute('data-cell',cell)
                 square.textContent = array[row][cell]
                 board.appendChild(square)
             }
         }
+        boardFunctionality()
     }
+
+    const boardFunctionality = () => {
+        const cells = board.querySelectorAll('.square')
+        cells.forEach(cell => {
+            cell.addEventListener('click',()=>{
+                row = cell.dataset.row
+                cell = cell.dataset.cell
+                console.log({row,cell})
+            })
+        })
+    }
+
+    let fill =  fillBoard
+    fill()
     
-    return {array,createBoard}
+    return {array}
 }
 )();
 
-createGameboard.createBoard()
+const Player = (sign) => {
+    const makeMove = () => {
+         createGameboard.array[row][cell] = sign
+         console.log(createGameboard.array)
+    } 
+
+    return {makeMove}
+}
+
+let playerX = Player('x')
