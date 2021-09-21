@@ -1,7 +1,5 @@
 const container = document.querySelector('.container')
-const xBtn = document.getElementById('choiceX')
-const oBtn = document.getElementById('choiceO')
-let player
+const choiceBtns = document.querySelectorAll('.choiceBtn')
 
 // Board module
 const createGameboard = (() =>{
@@ -36,21 +34,35 @@ const createGameboard = (() =>{
     }
 
     const makeMove = (sign,cell) => {
-        console.log(!array[cell.dataset.row][cell.dataset.cell])
+        
         if(sign == 'x' && !array[cell.dataset.row][cell.dataset.cell]){
             array[cell.dataset.row][cell.dataset.cell] = 'x'
+            // playerSign = 'o'
+            computerMove()
             fillBoard()
         }else if(sign == 'o' && !array[cell.dataset.row][cell.dataset.cell]){
             array[cell.dataset.row][cell.dataset.cell] = 'o'
+            // playerSign = 'x'
+            computerMove()
             fillBoard()
+        }
+    }
+
+    const computerMove = () => {
+        let row = Math.floor(Math.random()*3)
+        let cell = Math.floor(Math.random()*3)
+        if(!array[row][cell]){
+            array[row][cell] = computerSign
+        }else{
+            row = Math.floor(Math.random()*3)
+            cell = Math.floor(Math.random()*3)
+            array[row][cell] = computerSign
         }
     }
 
     const setSigns = (sign) => {
         playerSign = sign
         computerSign = sign == 'x' ? 'o' : 'x'
-        console.log(playerSign)
-        console.log(computerSign)
     }
 
     fillBoard()
@@ -65,7 +77,6 @@ const Player = (sign) => {
 
     const makeMove = () => {
          createGameboard.array[row][cell] = sign
-         console.log(createGameboard.array)
     } 
 
     const getSign = () => {
@@ -76,13 +87,12 @@ const Player = (sign) => {
 }
 
 // Event listeners
-xBtn.addEventListener('click',()=>{
-    let player = Player('x')
-    createGameboard.setSigns(player.getSign())
-})
-
-
-oBtn.addEventListener('click',()=>{
-    let player = Player('o')
-    createGameboard.setSigns(player.getSign())
+choiceBtns.forEach(btn => {
+    btn.addEventListener('click',()=>{
+        console.log(btn.textContent)
+        let player = Player(`${btn.textContent}`)
+        createGameboard.setSigns(player.getSign())
+        choiceBtns.forEach(btn => btn.disabled = true)
+    })
+    
 })
