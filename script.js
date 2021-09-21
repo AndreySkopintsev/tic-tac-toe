@@ -1,9 +1,12 @@
 const container = document.querySelector('.container')
+const xBtn = document.getElementById('choiceX')
+const oBtn = document.getElementById('choiceO')
+let playerSign
+let computerSign
 
-let row
-let cell
-
+// Board module
 const createGameboard = (() =>{
+    
     let array = [['','',''],['','',''],['','','']]
     let board = document.createElement('div')
     board.classList.add('board')
@@ -11,6 +14,7 @@ const createGameboard = (() =>{
     
 
     const fillBoard = () => {
+        board.innerHTML = ''
         for(let row in array){
             for(let cell in array[row]){
                 let square = document.createElement('div')
@@ -27,28 +31,48 @@ const createGameboard = (() =>{
     const boardFunctionality = () => {
         const cells = board.querySelectorAll('.square')
         cells.forEach(cell => {
-            cell.addEventListener('click',()=>{
-                row = cell.dataset.row
-                cell = cell.dataset.cell
-                console.log({row,cell})
-            })
+            cell.addEventListener('click',()=> makeMove(playerSign,cell))
         })
     }
 
-    let fill =  fillBoard
-    fill()
+    const makeMove = (sign,cell) => {
+        if(sign == 'x'){
+            array[cell.dataset.row][cell.dataset.cell] = 'x'
+            fillBoard()
+        }else{
+            array[cell.dataset.row][cell.dataset.cell] = 'o'
+            fillBoard()
+        }
+    }
+
+    fillBoard()
     
-    return {array}
+    return {array,fillBoard}
 }
 )();
 
+// Player factory function
 const Player = (sign) => {
     const makeMove = () => {
          createGameboard.array[row][cell] = sign
          console.log(createGameboard.array)
     } 
 
-    return {makeMove}
+    return {makeMove,sign}
 }
 
-let playerX = Player('x')
+// Event listeners
+xBtn.addEventListener('click',()=>{
+    let playerX = Player('x')
+    playerSign = playerX.sign
+    computerSign = 'o'
+    console.log(currentSign)
+})
+
+
+oBtn.addEventListener('click',()=>{
+    let playerO = Player('o')
+    playerSign = playerO.sign
+    computerSign = 'x'
+    console.log(currentSign)
+})
