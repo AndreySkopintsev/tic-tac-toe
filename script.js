@@ -1,12 +1,12 @@
 const container = document.querySelector('.container')
 const xBtn = document.getElementById('choiceX')
 const oBtn = document.getElementById('choiceO')
-let playerSign
-let computerSign
+let player
 
 // Board module
 const createGameboard = (() =>{
-    
+    let playerSign 
+    let computerSign
     let array = [['','',''],['','',''],['','','']]
     let board = document.createElement('div')
     board.classList.add('board')
@@ -36,43 +36,53 @@ const createGameboard = (() =>{
     }
 
     const makeMove = (sign,cell) => {
-        if(sign == 'x'){
+        console.log(!array[cell.dataset.row][cell.dataset.cell])
+        if(sign == 'x' && !array[cell.dataset.row][cell.dataset.cell]){
             array[cell.dataset.row][cell.dataset.cell] = 'x'
             fillBoard()
-        }else{
+        }else if(sign == 'o' && !array[cell.dataset.row][cell.dataset.cell]){
             array[cell.dataset.row][cell.dataset.cell] = 'o'
             fillBoard()
         }
     }
 
+    const setSigns = (sign) => {
+        playerSign = sign
+        computerSign = sign == 'x' ? 'o' : 'x'
+        console.log(playerSign)
+        console.log(computerSign)
+    }
+
     fillBoard()
     
-    return {array,fillBoard}
+    return {array,fillBoard,setSigns}
 }
 )();
 
 // Player factory function
 const Player = (sign) => {
+    let playerSign = sign
+
     const makeMove = () => {
          createGameboard.array[row][cell] = sign
          console.log(createGameboard.array)
     } 
 
-    return {makeMove,sign}
+    const getSign = () => {
+        return playerSign
+    }
+
+    return {makeMove,getSign}
 }
 
 // Event listeners
 xBtn.addEventListener('click',()=>{
-    let playerX = Player('x')
-    playerSign = playerX.sign
-    computerSign = 'o'
-    console.log(currentSign)
+    let player = Player('x')
+    createGameboard.setSigns(player.getSign())
 })
 
 
 oBtn.addEventListener('click',()=>{
-    let playerO = Player('o')
-    playerSign = playerO.sign
-    computerSign = 'x'
-    console.log(currentSign)
+    let player = Player('o')
+    createGameboard.setSigns(player.getSign())
 })
