@@ -1,5 +1,6 @@
 const container = document.querySelector('.container')
 const choiceBtns = document.querySelectorAll('.choiceBtn')
+let array
 
 // Board module
 const createGameboard = (() =>{
