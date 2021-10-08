@@ -6,14 +6,11 @@
     container.appendChild(boardDiv)
 
     const fillBoard = () => {
-        for(let i=0;i<3;i++){
-            for(let k=0;k<3;k++){
-                let square = document.createElement('div')
-                square.classList.add('square')
-                square.setAttribute('data-row',i)
-                square.setAttribute('data-cell',k)
-                boardDiv.appendChild(square)
-            }
+        for(let i=0;i<9;i++){
+            let square = document.createElement('div')
+            square.classList.add('square')
+            square.setAttribute('data-cell',i)
+            boardDiv.appendChild(square)
         }
     }
 
@@ -22,7 +19,7 @@
 
 // Game controller
 const gameController = (()=>{
-    let boardArray = [['','',''],['','',''],['','','']]
+    let boardArray = ['','','','','','','','','']
     const squares = document.querySelectorAll('.square')
     let sign = 'x'
     
@@ -30,10 +27,9 @@ const gameController = (()=>{
     const squareFunctionality = () =>{
         squares.forEach(square => {
             square.addEventListener('click',(e)=>{
-                let row = e.target.getAttribute('data-row')
                 let cell = e.target.getAttribute('data-cell')
-                console.log(boardArray[row][cell])
-                fillCell(sign,row,cell)
+                console.log(boardArray[cell])
+                fillCell(sign,cell)
             })
         })
     }
@@ -43,7 +39,7 @@ const gameController = (()=>{
         squares.forEach(square=>{
             let row = square.getAttribute('data-row')
             let cell = square.getAttribute('data-cell')
-            square.textContent = boardArray[row][cell]
+            square.textContent = boardArray[cell]
         })
     }
 
@@ -51,12 +47,15 @@ const gameController = (()=>{
     squareFunctionality()
 
     // Filling array cell
-    const fillCell = (mark,row,cell) => {
-        boardArray[row][cell] = mark
+    const fillCell = (mark,cell) => {
+        boardArray[cell] = mark
         mark == 'x' ? sign = 'o' : sign = 'x'
         displayArray()
     }
 
+    // Check winner
+    const checkWinner = ()=>{
+    }
     
     return {fillCell}
 })()
