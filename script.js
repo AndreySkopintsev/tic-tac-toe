@@ -1,9 +1,9 @@
-const container = document.querySelector('.container')
-const choiceBtns = document.querySelectorAll('.choiceBtn')
-let array
+
 
 // Board module
 const createGameboard = (() =>{
+    const container = document.querySelector('.container')
+    const choiceBtns = document.querySelectorAll('.choiceBtn')
     let playerSign 
     let computerSign
     let array = [['','',''],['','',''],['','','']]
@@ -49,6 +49,16 @@ const createGameboard = (() =>{
         }
     }
 
+    choiceBtns.forEach(btn => {
+        btn.addEventListener('click',()=>{
+            console.log(btn.textContent)
+            let player = Player(`${btn.textContent}`)
+            createGameboard.setSigns(player.getSign())
+            choiceBtns.forEach(btn => btn.disabled = true)
+        })
+        
+    })
+
     const computerMove = () => {
         let row = Math.floor(Math.random()*3)
         let cell = Math.floor(Math.random()*3)
@@ -72,6 +82,7 @@ const createGameboard = (() =>{
 }
 )();
 
+
 // Player factory function
 const Player = (sign) => {
     let playerSign = sign
@@ -88,12 +99,4 @@ const Player = (sign) => {
 }
 
 // Event listeners
-choiceBtns.forEach(btn => {
-    btn.addEventListener('click',()=>{
-        console.log(btn.textContent)
-        let player = Player(`${btn.textContent}`)
-        createGameboard.setSigns(player.getSign())
-        choiceBtns.forEach(btn => btn.disabled = true)
-    })
-    
-})
+
